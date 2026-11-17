@@ -64,35 +64,58 @@ export default function DevicesPage() {
   }
 
   return (
-    <section>
-      <h1>Computers / Devices</h1>
-      {!token && <p>Log in to view your associated desktop installations.</p>}
+    <section className="page-section">
+      <div className="page-heading">
+        <span className="eyebrow">Your setup</span>
+        <h1>Devices</h1>
+        <p>Manage the desktop installations associated with your account.</p>
+      </div>
+      {!token && <p className="notice notice-info">Log in to view your associated desktop installations.</p>}
       {token && (
-        <form onSubmit={onPairDevice}>
-          <label>
-            Pair a desktop installation
+        <form className="pairing-panel" onSubmit={onPairDevice}>
+          <div>
+            <h2>Associate a desktop</h2>
+            <p>Enter the pairing code shown in your Intentra desktop app.</p>
+          </div>
+          <label className="form-field pairing-field">
+            <span>Pairing code</span>
             <input
               value={pairingCode}
               onChange={(event) => setPairingCode(event.target.value.toUpperCase())}
+              placeholder="Enter pairing code"
               minLength={10}
               maxLength={16}
               autoComplete="off"
               required
             />
           </label>
-          <button type="submit" disabled={loading}>Associate desktop</button>
+          <button className="button button-primary pairing-button" type="submit" disabled={loading}>Associate desktop</button>
         </form>
       )}
-      {loading && <p role="status">Loading devices...</p>}
-      {error && <p role="alert">{error}</p>}
-      {token && !loading && !error && devices.length === 0 && <p>No devices are associated yet.</p>}
+      {loading && <p className="notice notice-info" role="status">Loading devices...</p>}
+      {error && <p className="notice notice-error" role="alert">{error}</p>}
+      {token && !loading && !error && devices.length === 0 && (
+        <div className="empty-state">
+          <span className="empty-state-icon" aria-hidden="true">↗</span>
+          <h2>No devices yet</h2>
+          <p>Pair a desktop installation to see it listed here.</p>
+        </div>
+      )}
       {devices.length > 0 && (
-        <ul>
+        <ul className="device-list">
           {devices.map((device) => (
-            <li key={device.installation_id}>
-              <strong>{device.device_name}</strong> - Intentra {device.desktop_version}
-              <div>Last seen: {new Date(device.last_seen).toLocaleString()}</div>
-              <div>OS user identifier: {device.os_user_identifier}</div>
+            <li className="device-card" key={device.installation_id}>
+              <div className="device-card-heading">
+                <span className="device-icon" aria-hidden="true">PC</span>
+                <div>
+                  <h2>{device.device_name}</h2>
+                  <p>Intentra {device.desktop_version}</p>
+                </div>
+              </div>
+              <dl className="device-details">
+                <div><dt>Last seen</dt><dd>{new Date(device.last_seen).toLocaleString()}</dd></div>
+                <div><dt>OS user identifier</dt><dd>{device.os_user_identifier}</dd></div>
+              </dl>
             </li>
           ))}
         </ul>

@@ -44,21 +44,49 @@ export default function DashboardPage() {
   }, [token]);
 
   if (!token) {
-    return <section><h1>Dashboard</h1><p>Log in to view your account and associated computers.</p></section>;
+    return (
+      <section className="page-section">
+        <div className="page-heading">
+          <span className="eyebrow">Your workspace</span>
+          <h1>Dashboard</h1>
+          <p>Log in to view your account and associated computers.</p>
+        </div>
+      </section>
+    );
   }
   if (error) {
-    return <section><h1>Dashboard</h1><p role="alert">{error}</p></section>;
+    return <section className="page-section"><div className="page-heading"><h1>Dashboard</h1></div><p className="notice notice-error" role="alert">{error}</p></section>;
   }
   if (!dashboard) {
-    return <section><h1>Dashboard</h1><p role="status">Loading account...</p></section>;
+    return <section className="page-section"><div className="page-heading"><h1>Dashboard</h1></div><p className="notice notice-info" role="status">Loading account...</p></section>;
   }
 
   return (
-    <section>
-      <h1>Dashboard</h1>
-      <p>Account: {dashboard.username}</p>
-      <p>Associated computers: {dashboard.devices.length}</p>
-      <p>Last settings synchronization: {dashboard.lastSync ? new Date(dashboard.lastSync).toLocaleString() : 'Not yet synchronized'}</p>
+    <section className="page-section">
+      <div className="page-heading">
+        <span className="eyebrow">Your workspace</span>
+        <h1>Dashboard</h1>
+        <p>A quick overview of your Intentra account.</p>
+      </div>
+      <div className="dashboard-grid">
+        <article className="summary-card">
+          <span className="summary-label">Account</span>
+          <strong className="summary-value">{dashboard.username}</strong>
+          <span className="summary-detail">Signed-in user</span>
+        </article>
+        <article className="summary-card">
+          <span className="summary-label">Connected computers</span>
+          <strong className="summary-value">{dashboard.devices.length}</strong>
+          <span className="summary-detail">Associated with your account</span>
+        </article>
+        <article className="summary-card summary-card-wide">
+          <span className="summary-label">Settings synchronization</span>
+          <strong className="summary-value summary-value-small">
+            {dashboard.lastSync ? new Date(dashboard.lastSync).toLocaleString() : 'Not yet synchronized'}
+          </strong>
+          <span className="summary-detail">Most recent account settings update</span>
+        </article>
+      </div>
     </section>
   );
 }
