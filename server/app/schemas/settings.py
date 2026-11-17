@@ -50,6 +50,33 @@ class SettingsPayload(BaseModel):
     scroll: ScrollSettings = Field(default_factory=ScrollSettings)
 
 
+def recommended_settings_payload() -> dict[str, Any]:
+    return {
+        "gaze": {
+            "smoothing": 0.9,
+            "sensitivity": 0.6,
+            "calibration_data": {},
+        },
+        "gestures": {
+            "pinch_threshold": 0.2,
+            "short_pinch_max_duration_ms": 300,
+            "double_click_interval_ms": 400,
+            "right_click_hold_ms": 650,
+            "movement_threshold": 0.1,
+            "jitter_threshold": 0.002,
+        },
+        "scroll": {
+            "precise_sensitivity": 100.0,
+            "movement_smoothing": 0.4,
+            "max_scroll_speed": 10.0,
+            "fast_scroll_threshold": 1.5,
+            "fast_scroll_acceleration_threshold": 10.0,
+            "fast_scroll_duration_ms": 300,
+            "fast_scroll_intensity": 2.0,
+        },
+    }
+
+
 class DeviceRegistration(BaseModel):
     model_config = ConfigDict(extra="forbid")
 

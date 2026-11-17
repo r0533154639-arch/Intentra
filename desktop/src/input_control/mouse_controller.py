@@ -15,6 +15,9 @@ class MouseController:
         self.sensitivity = 1.0
 
     def move(self, x: int, y: int) -> None:
+        width, height = pyautogui.size()
+        x = min(max(x, 1), width - 2)
+        y = min(max(y, 1), height - 2)
         pyautogui.moveTo(x, y)
 
     def click(self) -> None:

@@ -45,7 +45,7 @@ export default function DashboardPage() {
 
   if (!token) {
     return (
-      <section className="page-section">
+      <section className="page-section" >
         <div className="page-heading">
           <span className="eyebrow">Your workspace</span>
           <h1>Dashboard</h1>

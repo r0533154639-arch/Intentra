@@ -5,23 +5,23 @@ import { useAuth } from '../features/account/AuthContext';
 import type { UserSettings } from '../types';
 
 const initialSettings: UserSettings = {
-  gaze: { smoothing: 0.5, sensitivity: 1, calibration_data: {} },
+  gaze: { smoothing: 0.9, sensitivity: 0.6, calibration_data: {} },
   gestures: {
-    pinch_threshold: 0,
-    short_pinch_max_duration_ms: 0,
-    double_click_interval_ms: 0,
-    right_click_hold_ms: 0,
-    movement_threshold: 0,
-    jitter_threshold: 0,
+    pinch_threshold: 0.2,
+    short_pinch_max_duration_ms: 300,
+    double_click_interval_ms: 400,
+    right_click_hold_ms: 650,
+    movement_threshold: 0.1,
+    jitter_threshold: 0.002,
   },
   scroll: {
-    precise_sensitivity: 1,
-    movement_smoothing: 0,
-    max_scroll_speed: 0,
-    fast_scroll_threshold: 0,
-    fast_scroll_acceleration_threshold: 0,
-    fast_scroll_duration_ms: 0,
-    fast_scroll_intensity: 1,
+    precise_sensitivity: 100,
+    movement_smoothing: 0.4,
+    max_scroll_speed: 10,
+    fast_scroll_threshold: 1.5,
+    fast_scroll_acceleration_threshold: 10,
+    fast_scroll_duration_ms: 300,
+    fast_scroll_intensity: 2,
   },
 };
 

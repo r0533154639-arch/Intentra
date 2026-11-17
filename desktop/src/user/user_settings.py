@@ -7,8 +7,8 @@ from dataclasses import asdict, dataclass, field
 class UserSettings:
     user_id: str | None = None
     version: int = 0
-    smoothing: float = 0.5
-    sensitivity: float = 1.0
+    smoothing: float = 0.9
+    sensitivity: float = 0.6
     calibration_data: dict = field(default_factory=dict)
     pinch_threshold: float = 0.0
     short_pinch_max_duration_ms: int = 0

@@ -1,5 +1,6 @@
 from __future__ import annotations
 
+import sys
 import threading
 import time
 from collections import deque
@@ -9,13 +10,46 @@ from pyautogui import PyAutoGUIException
 
 from actions.action_dispatcher import ActionDispatcher
 from gestures.gesture_config import GestureConfig
-from gestures.gesture_detector import GestureDetector
+from gestures.gesture_detector import ActionEvent, GestureDetector
 from input_control.mouse_controller import MouseController
 from user.user_settings import UserSettings
 from vision.camera import CameraManager
 from vision.face_tracker import FaceTracker
 from vision.gaze_estimator import GazeEstimator
 from vision.hand_tracker import HandTracker
+
+
+def _console_print(message: str) -> None:
+    if sys.stdout is not None:
+        print(message, flush=True)
+
+
+def _log_gesture_action(event: ActionEvent) -> None:
+    if event.name == "SCROLL":
+        amount = float(event.context["amount"])
+        direction = "up" if amount > 0 else "down" if amount < 0 else "no movement"
+        mode = event.context.get("mode", "precise")
+        description = f"{mode.title()} scroll {direction} (amount={amount:+.2f}"
+        if mode == "fast":
+            description += f", duration={int(event.context['duration_ms'])} ms"
+        description += ")"
+    else:
+        description = {
+            "LEFT_CLICK": "Single left click",
+            "DOUBLE_CLICK": "Double-click",
+            "RIGHT_CLICK": "Right-click",
+        }.get(event.name, event.name.replace("_", " ").title())
+
+    _console_print(f"[Intentra] Action detected: {description}")
+
+
+def _log_hand_sample(pinch_distance: float, pinch_threshold: float) -> None:
+    pinch_state = "pinch detected" if pinch_distance <= pinch_threshold else "no pinch"
+    _console_print(
+        "[Intentra] Hand input: "
+        f"pinch distance={pinch_distance:.3f}, "
+        f"threshold={pinch_threshold:.3f} ({pinch_state})"
+    )
 
 
 class FramePipeline:
@@ -157,6 +191,7 @@ class FramePipeline:
 
     def _run(self) -> None:
         last_status_time = 0.0
+        last_gesture_diagnostic_time = 0.0
         try:
             while not self._stop_event.is_set():
                 frame = self.camera.read_frame()
@@ -176,6 +211,7 @@ class FramePipeline:
                                 eye_features,
                                 sensitivity=settings.sensitivity,
                                 smoothing=settings.smoothing,
+                                timestamp_ms=timestamp_ms,
                             )
                             screen_width, screen_height = pyautogui.size()
                             self.dispatcher.dispatch(
@@ -184,12 +220,22 @@ class FramePipeline:
                             )
                         if self._gesture_detector:
                             observation = hand
+                            if (
+                                observation is not None
+                                and time.monotonic() - last_gesture_diagnostic_time >= 1.0
+                            ):
+                                _log_hand_sample(
+                                    observation.pinch_distance,
+                                    self._gesture_detector.config.pinch_threshold,
+                                )
+                                last_gesture_diagnostic_time = time.monotonic()
                             events = self._gesture_detector.update(
                                 observation.pinch_distance if observation else None,
                                 observation.wrist_position if observation else None,
                                 timestamp_ms,
                             )
                             for event in events:
+                                _log_gesture_action(event)
                                 self.dispatcher.dispatch(
                                     event.name,
                                     {**event.context, "cancel_event": self._cancel_actions},

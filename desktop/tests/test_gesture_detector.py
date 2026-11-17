@@ -2,10 +2,10 @@ from gestures.gesture_config import GestureConfig
 from gestures.gesture_detector import GestureDetector
 
 
-def create_detector() -> GestureDetector:
+def create_detector(pinch_threshold: float = 0.1) -> GestureDetector:
     return GestureDetector(
         GestureConfig(
-            pinch_threshold=0.1,
+            pinch_threshold=pinch_threshold,
             short_pinch_max_duration_ms=200,
             double_click_interval_ms=400,
             right_click_hold_ms=600,
@@ -20,6 +20,16 @@ def create_detector() -> GestureDetector:
             movement_smoothing=0.0,
         )
     )
+
+
+def test_pinch_above_previous_threshold_produces_a_click():
+    detector = create_detector(pinch_threshold=0.2)
+    detector.update(0.18, (0.5, 0.5), 0)
+    detector.update(0.25, (0.5, 0.5), 100)
+
+    events = detector.update(0.25, (0.5, 0.5), 501)
+
+    assert [event.name for event in events] == ["LEFT_CLICK"]
 
 
 def test_short_pinch_is_held_until_double_click_window_expires():
@@ -37,8 +47,8 @@ def test_two_short_pinches_produce_one_double_click():
     detector.update(0.2, (0.5, 0.5), 120)
     detector.update(0.05, (0.5, 0.5), 150)
     detector.update(0.05, (0.5, 0.5), 250)
-    detector.update(0.2, (0.5, 0.5), 300)
-    events = detector.update(0.2, (0.5, 0.5), 350)
+    events = detector.update(0.2, (0.5, 0.5), 300)
+    events += detector.update(0.2, (0.5, 0.5), 350)
     events += detector.update(0.2, (0.5, 0.5), 400)
     assert [event.name for event in events] == ["DOUBLE_CLICK"]
     assert detector.update(0.2, (0.5, 0.5), 800) == []
@@ -99,3 +109,11 @@ def test_detector_rejects_unconfigured_thresholds():
         assert "Pinch threshold" in str(exc)
     else:
         raise AssertionError("Zero placeholder values must not enable gesture control")
+
+
+def test_lost_hand_tracking_does_not_turn_a_short_pinch_into_a_click():
+    detector = create_detector()
+    assert detector.update(0.05, (0.5, 0.5), 0) == []
+    assert detector.update(None, None, 100) == []
+    assert detector.update(None, None, 500) == []
+    assert detector.update(0.2, (0.5, 0.5), 550) == []

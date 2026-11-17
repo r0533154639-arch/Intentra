@@ -1,7 +1,7 @@
 from fastapi import APIRouter, Depends
 
 from app.core.dependencies import get_current_user_id
-from app.schemas.settings import SettingsPayload
+from app.schemas.settings import SettingsPayload, recommended_settings_payload
 from app.services.settings_service import get_settings_service
 
 router = APIRouter()
@@ -14,7 +14,7 @@ def get_settings(user_id: str = Depends(get_current_user_id)):
     if not settings:
         return {
             "user_id": user_id,
-            **SettingsPayload().model_dump(),
+            **recommended_settings_payload(),
             "updated_at": None,
             "version": 0,
         }

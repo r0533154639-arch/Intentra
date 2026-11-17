@@ -5,7 +5,7 @@ from typing import Any
 
 from app.database.mongo import get_collection
 from app.repositories.mongo_repository import MongoRepository
-from app.schemas.settings import SettingsPayload
+from app.schemas.settings import SettingsPayload, recommended_settings_payload
 
 
 class SettingsService:
@@ -50,7 +50,7 @@ class SettingsService:
         if settings is None:
             settings = {
                 "user_id": user_id,
-                **SettingsPayload().model_dump(),
+                **recommended_settings_payload(),
                 "updated_at": None,
                 "version": 0,
             }

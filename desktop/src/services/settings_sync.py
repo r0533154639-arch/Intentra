@@ -90,7 +90,7 @@ class SettingsSyncService:
     def save_calibration(self, identity: DeviceIdentity, calibration_data: dict) -> dict:
         self.cache.set("pending_calibration", json.dumps(calibration_data))
         settings = self.load_cached_settings() or {
-            "gaze": {"smoothing": 0.5, "sensitivity": 1.0, "calibration_data": {}},
+            "gaze": {"smoothing": 0.9, "sensitivity": 0.6, "calibration_data": {}},
             "gestures": {},
             "scroll": {},
         }

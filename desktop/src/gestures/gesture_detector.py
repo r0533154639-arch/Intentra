@@ -63,10 +63,12 @@ class GestureDetector:
             events.append(ActionEvent("LEFT_CLICK", {}))
             self._pending_click_deadline_ms = None
 
+        if pinch_distance is None or wrist_position is None:
+            self._last_time_ms = timestamp_ms
+            return events
+
         pinch_closed = (
-            pinch_distance is not None
-            and pinch_distance <= self.config.pinch_threshold
-            and wrist_position is not None
+            pinch_distance <= self.config.pinch_threshold
         )
 
         if self.state == GestureState.COOLDOWN:

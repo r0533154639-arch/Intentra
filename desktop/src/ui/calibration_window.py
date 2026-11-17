@@ -64,7 +64,9 @@ class CalibrationWindow(QDialog):
         self.marker.move(x, y)
         self.marker.raise_()
         self.instruction.setText(
-            f"Look at target {self.session.current_index + 1} of {len(self.session.targets)}, then press Space"
+            f"Look steadily at target {self.session.current_index + 1} of "
+            f"{len(self.session.targets)}. Sit about 50-70 cm from the camera, "
+            "keep the face centered and eyes open, then press Space"
         )
 
     def capture_target(self):

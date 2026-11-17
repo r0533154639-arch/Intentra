@@ -40,5 +40,10 @@ class CalibrationSession:
         features = np.asarray(recent_features[-15:], dtype=np.float64)
         if features.shape != (15, 4) or not np.isfinite(features).all():
             raise ValueError("Camera did not provide valid eye-tracking samples")
-        self.samples.append((features.mean(axis=0), (target.x, target.y)))
+        center = np.median(features, axis=0)
+        variability = np.median(np.abs(features - center), axis=0)
+        central_range = np.quantile(features, 0.9, axis=0) - np.quantile(features, 0.1, axis=0)
+        if np.max(variability) > 0.05 or np.max(central_range) > 0.1:
+            raise ValueError("Gaze was unstable. Keep looking at the target and capture it again.")
+        self.samples.append((center, (target.x, target.y)))
         self.current_index += 1

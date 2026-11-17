@@ -1048,3 +1048,146 @@ The architecture will remain modular: input detection, gesture
 interpretation, action selection, and action execution will be separate
 components. This will make it possible to add future capabilities
 without rewriting the core mechanisms.
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+# Comprehensive Research, Optimization, and Validation of Eye-Gaze Tracking and Hand Gesture Recognition
+
+Conduct a thorough technical investigation of the entire eye-gaze tracking and hand gesture recognition systems implemented in this project. Research established computer vision techniques, relevant algorithms, calibration methods, filtering approaches, and best practices to identify the most reliable and accurate solutions.
+
+The objective is to achieve the highest practical level of accuracy, stability, responsiveness, and usability. Do not make superficial adjustments. Examine the existing implementation, identify its underlying limitations, and implement well-founded improvements directly in the code.
+
+## 1. Eye-Gaze Tracking: Accuracy and Reliability
+
+Thoroughly review and optimize the complete eye-gaze tracking pipeline, including:
+
+- Face and eye detection.
+- Iris and pupil localization.
+- Gaze direction estimation.
+- Mapping gaze coordinates to screen coordinates.
+- Camera positioning and coordinate normalization.
+- Calibration and validation procedures.
+- Noise reduction and cursor stabilization.
+- Compensation for natural head movement and changes in viewing conditions.
+
+Ensure that the estimated gaze position corresponds as closely as possible to the actual point the user is looking at.
+
+The mouse cursor must move to the intended screen location accurately and naturally. When the user maintains their gaze on a fixed point, the cursor must remain stable without unnecessary movement, shaking, or jitter.
+
+Investigate and implement appropriate filtering and smoothing techniques. Balance stability and responsiveness carefully to avoid excessive latency or delayed cursor movement.
+
+## 2. Hand Gesture Recognition and Action Execution
+
+Review the complete hand-tracking and gesture-recognition implementation.
+
+For every supported gesture:
+
+- Verify that the gesture is detected correctly and consistently.
+- Ensure that each gesture triggers exactly the intended action.
+- Prevent accidental or repeated activations.
+- Identify and resolve conflicts between similar gestures.
+- Improve detection reliability under different hand positions, distances, and lighting conditions.
+- Ensure that gesture recognition does not interfere with eye-gaze tracking.
+
+Examine the complete process from hand detection through gesture classification to action execution. Validate that every action is handled correctly and that the system responds predictably.
+
+## 3. User Settings: Recommended Default Values
+
+Review all user-configurable settings available on the website, particularly those related to eye tracking, hand tracking, calibration, sensitivity, smoothing, thresholds, and interaction behavior.
+
+Determine the most appropriate default values based on technical research and practical testing.
+
+Provide:
+
+- The recommended value for each setting.
+- A clear explanation of what the setting controls.
+- Why the recommended value is appropriate.
+- How changing the value affects accuracy, stability, and responsiveness.
+- Which settings should be adjustable by users and which should remain internally controlled.
+
+Implement the recommended defaults in the appropriate locations in the code.
+
+Do not choose arbitrary values. Base recommendations on the actual algorithms, measurement ranges, and behavior of the implemented system.
+
+## 4. Nine-Point Calibration: Optimal Procedure
+
+Investigate the most effective way to perform the nine-point screen calibration.
+
+Specifically, determine the recommended physical distance between the user's face and the camera:
+
+- Close to the camera.
+- At a moderate distance.
+- Farther away from the camera.
+
+Evaluate how distance affects eye and iris detection, tracking accuracy, camera resolution, head movement, and calibration reliability.
+
+Also establish:
+
+- The optimal position of the face relative to the camera.
+- Whether the user should keep their head completely still or allow natural movement.
+- The recommended screen and camera positioning.
+- How long the user should look at each calibration point.
+- How to detect an incorrectly captured calibration point.
+- Whether calibration points should be repeated when confidence is low.
+- How to validate calibration quality before enabling mouse control.
+
+Implement clear, practical calibration instructions in the application so users can complete the process correctly.
+
+## 5. Testing and Validation
+
+Do not consider the task complete simply because the code runs.
+
+Perform a systematic review and validation of the entire interaction system.
+
+Test:
+
+- Gaze accuracy across different screen regions.
+- Cursor stability when looking at a fixed point.
+- Cursor responsiveness when moving between distant points.
+- Calibration consistency.
+- Gesture recognition accuracy.
+- Correct execution of every supported action.
+- Interaction between gaze tracking and hand gestures.
+- Behavior under realistic variations in lighting, face position, and camera distance.
+
+Identify remaining limitations and address every issue that can reasonably be resolved.
+
+## 6. Implementation Requirements
+
+- Examine the entire existing codebase before making changes.
+- Research relevant technical approaches before selecting algorithms or parameters.
+- Preserve existing functionality and avoid unnecessary architectural changes.
+- Keep the implementation modular, maintainable, and well documented.
+- Avoid introducing unnecessary dependencies.
+- Ensure that all user settings are consistent with the actual implementation.
+- Do not claim that accuracy is perfect unless it has been objectively measured and validated.
+- Clearly distinguish between verified improvements and limitations that require additional hardware or testing.
+
+## Expected Deliverables
+
+At the end of the task, provide:
+
+1. A summary of the problems identified in the existing implementation.
+2. A detailed description of the improvements implemented.
+3. The recommended default values for all relevant user settings.
+4. The optimal nine-point calibration procedure, including the recommended camera-to-face distance.
+5. A summary of the tests performed and their results.
+6. Any remaining limitations and recommendations for further improvement.
+
+**Final objective:** Deliver a reliable, precise, and stable accessibility system in which eye gaze accurately controls the intended mouse position, hand gestures consistently execute their assigned actions, and users can configure and calibrate the system through clear, technically justified instructions.

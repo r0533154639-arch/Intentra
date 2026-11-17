@@ -77,7 +77,25 @@ def test_settings_are_saved_per_account():
             "/api/settings",
             headers={"Authorization": "Bearer " + other_token},
         ).json()
-        assert other_settings["gaze"]["smoothing"] == 0.5
+        assert other_settings["gaze"]["smoothing"] == 0.9
+        assert other_settings["gaze"]["sensitivity"] == 0.6
+        assert other_settings["gestures"] == {
+            "pinch_threshold": 0.2,
+            "short_pinch_max_duration_ms": 300,
+            "double_click_interval_ms": 400,
+            "right_click_hold_ms": 650,
+            "movement_threshold": 0.1,
+            "jitter_threshold": 0.002,
+        }
+        assert other_settings["scroll"] == {
+            "precise_sensitivity": 100.0,
+            "movement_smoothing": 0.4,
+            "max_scroll_speed": 10.0,
+            "fast_scroll_threshold": 1.5,
+            "fast_scroll_acceleration_threshold": 10.0,
+            "fast_scroll_duration_ms": 300,
+            "fast_scroll_intensity": 2.0,
+        }
 
 
 def test_device_pairing_requires_approval_and_authenticates_device_key():
