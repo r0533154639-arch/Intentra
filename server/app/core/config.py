@@ -16,7 +16,7 @@ class Settings(BaseModel):
     mongo_uri: str = os.getenv("MONGODB_URI", "mongodb://localhost:27017")
     mongo_db_name: str = os.getenv("MONGODB_DB_NAME", "intentra")
     mongo_server_selection_timeout_ms: int = int(os.getenv("MONGODB_SERVER_SELECTION_TIMEOUT_MS", "5000"))
-    allowed_origins: list[str] = os.getenv("CORS_ALLOWED_ORIGINS", "http://localhost:3000").split(",")
+    allowed_origins: list[str] = os.getenv("CORS_ALLOWED_ORIGINS", "http://localhost:3000,http://localhost:3001").split(",")
     force_https: bool = os.getenv("FORCE_HTTPS", "false").lower() == "true"
     debug: bool = os.getenv("DEBUG", "false").lower() == "true"
 
