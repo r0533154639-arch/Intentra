@@ -35,50 +35,38 @@ const gestures = [
 
 export default function GesturesPage() {
   return (
-    <section style={{ maxWidth: 960, margin: '0 auto' }}>
-      <h1>Hand gestures</h1>
-      <p>
-        Use a pinch between your thumb and index finger to activate an action. The system
-        classifies each pinch as a click, hold, or scroll based on its duration and hand
-        movement.
-      </p>
+    <section className="page-section">
+      <div className="page-heading">
+        <span className="eyebrow">How it works</span>
+        <h1>Hand gestures</h1>
+        <p>
+          Use a pinch between your thumb and index finger to activate an action. The system
+          classifies each pinch as a click, hold, or scroll based on its duration and hand
+          movement.
+        </p>
+      </div>
 
-      <div
-        style={{
-          display: 'grid',
-          gridTemplateColumns: 'repeat(auto-fit, minmax(min(100%, 260px), 1fr))',
-          gap: '1rem',
-          marginTop: '1.5rem',
-        }}
-      >
-        {gestures.map((item) => (
-          <article
-            key={item.name}
-            style={{
-              border: '1px solid #d1d5db',
-              borderRadius: 8,
-              padding: '1rem',
-              background: '#fff',
-            }}
-          >
-            <h2 style={{ marginTop: 0 }}>{item.name}</h2>
-            <p><strong>What to do:</strong> {item.gesture}</p>
-            <p><strong>What the system does:</strong> {item.behavior}</p>
+      <div className="gesture-grid">
+        {gestures.map((item, index) => (
+          <article className="gesture-card" key={item.name}>
+            <span className="gesture-card-icon" aria-hidden="true">
+              {String(index + 1).padStart(2, '0')}
+            </span>
+            <h2>{item.name}</h2>
+            <p><strong>What to do</strong><span>{item.gesture}</span></p>
+            <p><strong>What the system does</strong><span>{item.behavior}</span></p>
           </article>
         ))}
       </div>
 
-      <aside
-        style={{
-          marginTop: '1.5rem',
-          padding: '1rem',
-          borderLeft: '4px solid #2563eb',
-          background: '#eff6ff',
-        }}
-      >
-        <strong>Tip:</strong> Gesture thresholds are configurable and may need calibration
-        for your camera and movement. Visit <Link to="/settings">Settings</Link> to adjust
-        them. A zero threshold means gesture control is not configured.
+      <aside className="callout">
+        <span className="callout-icon" aria-hidden="true">i</span>
+        <p>
+          <strong>Make it yours</strong>
+          Gesture thresholds are configurable and may need calibration for your camera and
+          movement. Visit <Link to="/settings">Settings</Link> to adjust them. A zero
+          threshold means gesture control is not configured.
+        </p>
       </aside>
     </section>
   );

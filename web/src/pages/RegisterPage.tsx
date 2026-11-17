@@ -18,29 +18,47 @@ export default function RegisterPage() {
   }
 
   return (
-    <form onSubmit={onSubmit} style={{ maxWidth: 360 }}>
-      <h2>Register</h2>
-      <input
-        value={username}
-        onChange={(e) => setUsername(e.target.value)}
-        placeholder="Username"
-        style={{ display: 'block', width: '100%', margin: '0.5rem 0', padding: '0.5rem' }}
-      />
-      <input
-        value={email}
-        onChange={(e) => setEmail(e.target.value)}
-        placeholder="Email"
-        style={{ display: 'block', width: '100%', margin: '0.5rem 0', padding: '0.5rem' }}
-      />
-      <input
-        type="password"
-        value={password}
-        onChange={(e) => setPassword(e.target.value)}
-        placeholder="Password"
-        style={{ display: 'block', width: '100%', margin: '0.5rem 0', padding: '0.5rem' }}
-      />
-      <button type="submit" style={{ padding: '0.5rem 1rem' }}>Register</button>
-      {message && <p>{message}</p>}
-    </form>
+    <section className="auth-layout">
+      <div className="auth-card">
+        <div className="page-heading">
+          <span className="eyebrow">Get started</span>
+          <h1>Create your account</h1>
+          <p>Set up an account to sync your preferences across your devices.</p>
+        </div>
+        <form className="form-stack" onSubmit={onSubmit}>
+          <label className="form-field">
+            <span>Username</span>
+            <input
+              autoComplete="username"
+              value={username}
+              onChange={(e) => setUsername(e.target.value)}
+              placeholder="Choose a username"
+            />
+          </label>
+          <label className="form-field">
+            <span>Email</span>
+            <input
+              inputMode="email"
+              autoComplete="email"
+              value={email}
+              onChange={(e) => setEmail(e.target.value)}
+              placeholder="you@example.com"
+            />
+          </label>
+          <label className="form-field">
+            <span>Password</span>
+            <input
+              type="password"
+              autoComplete="new-password"
+              value={password}
+              onChange={(e) => setPassword(e.target.value)}
+              placeholder="Create a password"
+            />
+          </label>
+          <button className="button button-primary button-wide" type="submit">Create account</button>
+          {message && <p className="notice notice-info" role="status">{message}</p>}
+        </form>
+      </div>
+    </section>
   );
 }

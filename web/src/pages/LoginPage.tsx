@@ -22,23 +22,37 @@ export default function LoginPage() {
   }
 
   return (
-    <form onSubmit={onSubmit} style={{ maxWidth: 360 }}>
-      <h2>Login</h2>
-      <input
-        value={username}
-        onChange={(e) => setUsername(e.target.value)}
-        placeholder="Username"
-        style={{ display: 'block', width: '100%', margin: '0.5rem 0', padding: '0.5rem' }}
-      />
-      <input
-        type="password"
-        value={password}
-        onChange={(e) => setPassword(e.target.value)}
-        placeholder="Password"
-        style={{ display: 'block', width: '100%', margin: '0.5rem 0', padding: '0.5rem' }}
-      />
-      <button type="submit" style={{ padding: '0.5rem 1rem' }}>Login</button>
-      {message && <p>{message}</p>}
-    </form>
+    <section className="auth-layout">
+      <div className="auth-card">
+        <div className="page-heading">
+          <span className="eyebrow">Welcome back</span>
+          <h1>Login</h1>
+          <p>Sign in to manage your Intentra settings and devices.</p>
+        </div>
+        <form className="form-stack" onSubmit={onSubmit}>
+          <label className="form-field">
+            <span>Username</span>
+            <input
+              autoComplete="username"
+              value={username}
+              onChange={(e) => setUsername(e.target.value)}
+              placeholder="Your username"
+            />
+          </label>
+          <label className="form-field">
+            <span>Password</span>
+            <input
+              type="password"
+              autoComplete="current-password"
+              value={password}
+              onChange={(e) => setPassword(e.target.value)}
+              placeholder="Your password"
+            />
+          </label>
+          <button className="button button-primary button-wide" type="submit">Login</button>
+          {message && <p className="notice notice-error" role="alert">{message}</p>}
+        </form>
+      </div>
+    </section>
   );
 }

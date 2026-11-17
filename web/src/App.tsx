@@ -1,4 +1,4 @@
-import { Link, Route, Routes } from 'react-router-dom';
+import { Link, NavLink, Route, Routes } from 'react-router-dom';
 import { useState } from 'react';
 import DashboardPage from './pages/DashboardPage';
 import DevicesPage from './pages/DevicesPage';
@@ -30,32 +30,46 @@ function ApplicationRoutes() {
   }
 
   return (
-    <div>
-      <nav style={{ display: 'flex', gap: '1rem', padding: '1rem', background: '#111827', color: 'white' }}>
-        <Link to="/">Dashboard</Link>
-        <Link to="/gestures">Gestures</Link>
-        <Link to="/settings">Settings</Link>
-        <Link to="/devices">Devices</Link>
-        {token ? (
-          <button type="button" onClick={() => void handleSignOut()}>Log out / switch user</button>
-        ) : (
-          <>
-            <Link to="/login">Login</Link>
-            <Link to="/register">Register</Link>
-          </>
-        )}
-      </nav>
-      {logoutError && <p role="alert">{logoutError}</p>}
+    <div className="app-shell">
+      <header className="site-header">
+        <nav className="site-nav" aria-label="Main navigation">
+          <Link className="brand" to="/" aria-label="Intentra home">
+            <span className="brand-mark" aria-hidden="true">I</span>
+            <span>Intentra</span>
+          </Link>
+          <div className="nav-links">
+            <NavLink className={({ isActive }) => `nav-link${isActive ? ' is-active' : ''}`} end to="/">Dashboard</NavLink>
+            <NavLink className={({ isActive }) => `nav-link${isActive ? ' is-active' : ''}`} to="/gestures">Gestures</NavLink>
+            <NavLink className={({ isActive }) => `nav-link${isActive ? ' is-active' : ''}`} to="/settings">Settings</NavLink>
+            <NavLink className={({ isActive }) => `nav-link${isActive ? ' is-active' : ''}`} to="/devices">Devices</NavLink>
+          </div>
+          <div className="nav-account">
+            {token ? (
+              <button className="button button-quiet nav-action" type="button" onClick={() => void handleSignOut()}>
+                Log out / switch user
+              </button>
+            ) : (
+              <>
+                <NavLink className="nav-link" to="/login">Login</NavLink>
+                <NavLink className="button button-primary nav-register" to="/register">Create account</NavLink>
+              </>
+            )}
+          </div>
+        </nav>
+      </header>
 
-      <main style={{ padding: '2rem' }}>
-        <Routes>
-          <Route path="/" element={<DashboardPage />} />
-          <Route path="/gestures" element={<GesturesPage />} />
-          <Route path="/login" element={<LoginPage />} />
-          <Route path="/register" element={<RegisterPage />} />
-          <Route path="/settings" element={<SettingsPage />} />
-          <Route path="/devices" element={<DevicesPage />} />
-        </Routes>
+      <main className="main-content">
+        <div className="content-container">
+          {logoutError && <p className="notice notice-error" role="alert">{logoutError}</p>}
+          <Routes>
+            <Route path="/" element={<DashboardPage />} />
+            <Route path="/gestures" element={<GesturesPage />} />
+            <Route path="/login" element={<LoginPage />} />
+            <Route path="/register" element={<RegisterPage />} />
+            <Route path="/settings" element={<SettingsPage />} />
+            <Route path="/devices" element={<DevicesPage />} />
+          </Routes>
+        </div>
       </main>
     </div>
   );

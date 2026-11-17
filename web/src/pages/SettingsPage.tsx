@@ -88,15 +88,20 @@ export default function SettingsPage() {
   }
 
   return (
-    <form onSubmit={onSubmit} style={{ display: 'grid', gap: '0.75rem', maxWidth: 560 }}>
-      <h2>Settings</h2>
-      {!token && <p>Log in to load and save your settings.</p>}
-      {loading && <p role="status">Loading or saving settings...</p>}
-      <fieldset>
+    <form className="settings-form" onSubmit={onSubmit}>
+      <div className="page-heading">
+        <span className="eyebrow">Personalize your experience</span>
+        <h1>Settings</h1>
+        <p>Fine-tune gaze tracking, gestures, and scrolling to suit your setup.</p>
+      </div>
+      {!token && <p className="notice notice-info">Log in to load and save your settings.</p>}
+      {loading && <p className="notice notice-info" role="status">Loading or saving settings...</p>}
+      <fieldset className="settings-section">
         <legend>Gaze tracking</legend>
         <label>
-          Cursor smoothing
+          <span>Cursor smoothing</span>
           <input
+            className="settings-input"
             type="number"
             step="0.01"
             value={settings.gaze.smoothing}
@@ -104,8 +109,9 @@ export default function SettingsPage() {
           />
         </label>
         <label>
-          Cursor sensitivity
+          <span>Cursor sensitivity</span>
           <input
+            className="settings-input"
             type="number"
             step="0.01"
             value={settings.gaze.sensitivity}
@@ -113,11 +119,12 @@ export default function SettingsPage() {
           />
         </label>
       </fieldset>
-      <fieldset>
+      <fieldset className="settings-section">
         <legend>Gestures</legend>
         <label>
-          Pinch threshold
+          <span>Pinch threshold</span>
           <input
+            className="settings-input"
             type="number"
             step="0.01"
             value={settings.gestures.pinch_threshold}
@@ -125,32 +132,36 @@ export default function SettingsPage() {
           />
         </label>
         <label>
-          Short-pinch maximum (ms)
+          <span>Short-pinch maximum (ms)</span>
           <input
+            className="settings-input"
             type="number"
             value={settings.gestures.short_pinch_max_duration_ms}
             onChange={(event) => setSettings({ ...settings, gestures: { ...settings.gestures, short_pinch_max_duration_ms: Number(event.target.value) } })}
           />
         </label>
         <label>
-          Double-click interval (ms)
+          <span>Double-click interval (ms)</span>
           <input
+            className="settings-input"
             type="number"
             value={settings.gestures.double_click_interval_ms}
             onChange={(event) => setSettings({ ...settings, gestures: { ...settings.gestures, double_click_interval_ms: Number(event.target.value) } })}
           />
         </label>
         <label>
-          Right-click hold (ms)
+          <span>Right-click hold (ms)</span>
           <input
+            className="settings-input"
             type="number"
             value={settings.gestures.right_click_hold_ms}
             onChange={(event) => setSettings({ ...settings, gestures: { ...settings.gestures, right_click_hold_ms: Number(event.target.value) } })}
           />
         </label>
         <label>
-          Movement threshold
+          <span>Movement threshold</span>
           <input
+            className="settings-input"
             type="number"
             step="0.01"
             value={settings.gestures.movement_threshold}
@@ -158,8 +169,9 @@ export default function SettingsPage() {
           />
         </label>
         <label>
-          Jitter threshold
+          <span>Jitter threshold</span>
           <input
+            className="settings-input"
             type="number"
             step="0.01"
             value={settings.gestures.jitter_threshold}
@@ -167,11 +179,12 @@ export default function SettingsPage() {
           />
         </label>
       </fieldset>
-      <fieldset>
+      <fieldset className="settings-section">
         <legend>Scrolling</legend>
         <label>
-          Precise-scroll sensitivity
+          <span>Precise-scroll sensitivity</span>
           <input
+            className="settings-input"
             type="number"
             step="0.01"
             value={settings.scroll.precise_sensitivity}
@@ -179,8 +192,9 @@ export default function SettingsPage() {
           />
         </label>
         <label>
-          Movement smoothing
+          <span>Movement smoothing</span>
           <input
+            className="settings-input"
             type="number"
             step="0.01"
             value={settings.scroll.movement_smoothing}
@@ -188,8 +202,9 @@ export default function SettingsPage() {
           />
         </label>
         <label>
-          Maximum scroll speed
+          <span>Maximum scroll speed</span>
           <input
+            className="settings-input"
             type="number"
             step="0.01"
             value={settings.scroll.max_scroll_speed}
@@ -197,8 +212,9 @@ export default function SettingsPage() {
           />
         </label>
         <label>
-          Fast-scroll threshold
+          <span>Fast-scroll threshold</span>
           <input
+            className="settings-input"
             type="number"
             step="0.01"
             value={settings.scroll.fast_scroll_threshold}
@@ -206,8 +222,9 @@ export default function SettingsPage() {
           />
         </label>
         <label>
-          Fast-scroll acceleration threshold
+          <span>Fast-scroll acceleration threshold</span>
           <input
+            className="settings-input"
             type="number"
             step="0.01"
             value={settings.scroll.fast_scroll_acceleration_threshold}
@@ -215,16 +232,18 @@ export default function SettingsPage() {
           />
         </label>
         <label>
-          Fast-scroll duration (ms)
+          <span>Fast-scroll duration (ms)</span>
           <input
+            className="settings-input"
             type="number"
             value={settings.scroll.fast_scroll_duration_ms}
             onChange={(event) => setSettings({ ...settings, scroll: { ...settings.scroll, fast_scroll_duration_ms: Number(event.target.value) } })}
           />
         </label>
         <label>
-          Fast-scroll intensity
+          <span>Fast-scroll intensity</span>
           <input
+            className="settings-input"
             type="number"
             step="0.01"
             value={settings.scroll.fast_scroll_intensity}
@@ -232,8 +251,10 @@ export default function SettingsPage() {
           />
         </label>
       </fieldset>
-      <button type="submit" disabled={!token || loading}>Save settings</button>
-      {message && <p role="status">{message}</p>}
+      <div className="settings-actions">
+        <button className="button button-primary" type="submit" disabled={!token || loading}>Save settings</button>
+        {message && <p className={`notice ${message === 'Settings saved.' ? 'notice-success' : 'notice-error'}`} role="status">{message}</p>}
+      </div>
     </form>
   );
 }
