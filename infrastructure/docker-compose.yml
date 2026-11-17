@@ -1,0 +1,46 @@
+services:
+  mongodb:
+    image: mongo:7
+    container_name: intentra-mongodb
+    restart: unless-stopped
+    ports:
+      - "127.0.0.1:27017:27017"
+    environment:
+      MONGO_INITDB_DATABASE: intentra
+    healthcheck:
+      test: ["CMD", "mongosh", "--quiet", "--eval", "db.runCommand({ ping: 1 }).ok"]
+      interval: 5s
+      timeout: 3s
+      retries: 20
+
+  server:
+    build:
+      context: ../server
+      dockerfile: Dockerfile
+    working_dir: /app
+    volumes:
+      - ../server:/app
+    ports:
+      - "127.0.0.1:8000:8000"
+    environment:
+      JWT_SECRET_KEY: ${JWT_SECRET_KEY:?Set JWT_SECRET_KEY in the root .env file}
+      MONGODB_URI: mongodb://mongodb:27017
+      MONGODB_DB_NAME: intentra
+      CORS_ALLOWED_ORIGINS: http://localhost:3000
+      DEBUG: "false"
+    depends_on:
+      mongodb:
+        condition: service_healthy
+
+  web:
+    build:
+      context: ../web
+      dockerfile: Dockerfile
+    working_dir: /app
+    volumes:
+      - ../web:/app
+      - /app/node_modules
+    ports:
+      - "127.0.0.1:3000:3000"
+    environment:
+      VITE_API_BASE_URL: http://localhost:8000

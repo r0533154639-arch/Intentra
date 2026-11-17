@@ -1,0 +1,49 @@
+.env
+**/.env
+**/.venv/
+**/__pycache__/
+**/*.py[cod]
+web/node_modules/
+web/dist/
+desktop/models/*.task
+*.private.pem
+cat >> .gitignore <<'EOF'
+
+# Environment variables and secrets
+.env
+.env.*
+!.env.example
+**/.env
+**/.env.*
+!**/.env.example
+
+# Python
+.venv/
+**/.venv/
+venv/
+**/venv/
+__pycache__/
+**/__pycache__/
+*.py[cod]
+
+# Node.js
+node_modules/
+**/node_modules/
+dist/
+**/dist/
+
+# Private keys and credentials
+*.key
+*.p12
+*.pfx
+*.private.pem
+secrets.json
+credentials.json
+
+# IDE and operating system
+.idea/
+.DS_Store
+Thumbs.db
+EOF
+# NetFree certificates - do not commit
+server/certs/
