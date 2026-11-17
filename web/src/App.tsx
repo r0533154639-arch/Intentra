@@ -2,6 +2,7 @@ import { Link, Route, Routes } from 'react-router-dom';
 import { useState } from 'react';
 import DashboardPage from './pages/DashboardPage';
 import DevicesPage from './pages/DevicesPage';
+import GesturesPage from './pages/GesturesPage';
 import LoginPage from './pages/LoginPage';
 import RegisterPage from './pages/RegisterPage';
 import SettingsPage from './pages/SettingsPage';
@@ -32,6 +33,7 @@ function ApplicationRoutes() {
     <div>
       <nav style={{ display: 'flex', gap: '1rem', padding: '1rem', background: '#111827', color: 'white' }}>
         <Link to="/">Dashboard</Link>
+        <Link to="/gestures">Gestures</Link>
         <Link to="/settings">Settings</Link>
         <Link to="/devices">Devices</Link>
         {token ? (
@@ -48,6 +50,7 @@ function ApplicationRoutes() {
       <main style={{ padding: '2rem' }}>
         <Routes>
           <Route path="/" element={<DashboardPage />} />
+          <Route path="/gestures" element={<GesturesPage />} />
           <Route path="/login" element={<LoginPage />} />
           <Route path="/register" element={<RegisterPage />} />
           <Route path="/settings" element={<SettingsPage />} />
